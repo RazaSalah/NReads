@@ -1,25 +1,31 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Shelf from "../components/Shelf";
+import Shelves from "../components/Shelves";
+import * as BooksAPI from "../Api";
 
 export default class Home extends Component {
+  state = {
+    books: [],
+  };
+
+  componentDidMount() {
+    BooksAPI.getAllBooks().then((res) => this.setState({ books: res }));
+  }
   render() {
+    console.log(this.state.books);
     return (
       <div className="books-list">
+        {/* Header */}
         <div className="books-list_title">
           <h1>NReads</h1>
         </div>
+        {/* shelf */}
         <div className="books-list_content">
           <div>
-            {/* shelf components will be here */}
-            <Shelf Category="Currently Reading" />
-            <Shelf Category="Want To Read" />
-            <Shelf Category="Read" />
+            <Shelves allBooks={this.state.books} />
           </div>
         </div>
-        {/* <div className="search-btn">
-      <button>Add a book</button>
-    </div> */}
+        {/* search button */}
         <Link to="/SearchPage" className="search-btn">
           Add a book
         </Link>

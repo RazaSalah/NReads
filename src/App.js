@@ -1,23 +1,20 @@
 import React, { Component } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Search from "./Pages/SearchPage";
-
-
+import SearchPage from "./Pages/SearchPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
- 
   render() {
     return (
-      
-        <Router>
+      <BrowserRouter>
+        <div className="app">
           <Routes>
-          <Route path='/' exact element={<Home Book={this.Book}/>} />
-          <Route path='/SearchPage' element={<Search />} />
+            <Route path="/SearchPage" element={<SearchPage />}></Route>
+            <Route path="/" element={<Home />}></Route>
           </Routes>
-        </Router>
-   
+        </div>
+      </BrowserRouter>
     );
   }
 }
