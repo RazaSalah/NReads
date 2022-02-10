@@ -11,8 +11,19 @@ export default class Home extends Component {
   componentDidMount() {
     BooksAPI.getAllBooks().then((res) => this.setState({ books: res }));
   }
+
+  changeShelf = async (book, shelf) => {
+    await BooksAPI.updateBook(book, shelf);
+    await BooksAPI.getAllBooks().then((res) => {
+      this.setState({
+        books: res,
+      });
+    });
+    //this.handleBooksSearch(this.state.search);
+  };
+
   render() {
-    console.log(this.state.books);
+    // console.log(this.state.books);
     return (
       <div className="books-list">
         {/* Header */}
@@ -22,7 +33,11 @@ export default class Home extends Component {
         {/* shelf */}
         <div className="books-list_content">
           <div>
-            <Shelves allBooks={this.state.books} />
+            {/* pass the books array and the change shelf to the shelves */}
+            <Shelves
+              allBooks={this.state.books}
+              changeShelf={this.changeShelf}
+            />
           </div>
         </div>
         {/* search button */}

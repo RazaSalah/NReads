@@ -2,15 +2,44 @@ import React, { Component } from "react";
 import "./App.css";
 import Home from "./Pages/Home";
 import SearchPage from "./Pages/SearchPage";
+import * as BooksAPI from "./Api";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
+  state = {
+    search: "",
+    searchResult: [],
+  };
+
+  handleSearch = async (event) => {
+    await this.setState({ search: event.target.value });
+    console.log(this.state.search);
+    this.handleBookSearch(this.state.search);
+  };
+
+  handleBookSearch = (search) => {
+    BooksAPI.searchBook(search).then((res) => {
+      this.setState({
+        searchResult: res,
+      });
+      console.log(this.state.searchResult);
+    });
+  };
   render() {
     return (
       <BrowserRouter>
         <div className="app">
           <Routes>
-            <Route path="/SearchPage" element={<SearchPage />}></Route>
+            <Route
+              path="/SearchPage"
+              element={
+                <SearchPage
+                  handleSearch={this.handleSearch}
+                  search={this.state.search}
+                  searchResult={this.state.searchResult}
+                />
+              }
+            ></Route>
             <Route path="/" element={<Home />}></Route>
           </Routes>
         </div>

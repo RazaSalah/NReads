@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 
 export default class Shelf extends Component {
+  updateShelf = (event) => {
+    this.props.changeShelf(this.props.book, event.target.value);
+  };
+
   render() {
     const shelfBooks = this.props.books;
-    console.log(shelfBooks);
+    // console.log(shelfBooks);
     return (
       <div>
         <div className="shelf">
@@ -23,7 +27,11 @@ export default class Shelf extends Component {
                         }}
                       ></div>
                       <div className="shelf-shfiter">
-                        <select>
+                        {/* calling the change shelf method whenever the user change the book shelf */}
+                        <select
+                          value={bookInfo.shelf}
+                          onChange={this.updateShelf}
+                        >
                           <option value="move" disabled>
                             Move to...
                           </option>

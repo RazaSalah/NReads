@@ -1,29 +1,31 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import SearchShelves from "../components/SearchShelves";
 
 export default class SearchPage extends Component {
   render() {
+    const handleSearch = this.props.handleSearch;
+    const search = this.props.search;
+    const searchResult = this.props.searchResult;
+    console.log(searchResult);
+
     return (
       <div className="main">
         <div className="search-container">
           <div className="search-container-bar">
-            {/* <button
-              className="close-btn-bar"
-              onClick={() => this.props.ShowSearchPage(true)}
-            >
-              Close
-            </button> */}
-            {/* we can use the link instead of using state to navigate back to home */}
             <Link to="/" className="close-btn-bar">
               Close
             </Link>
             <div className="input-wrapper">
-              <input type="text" placeholder="Search..." />
+              <input
+                type="text"
+                placeholder="Search..."
+                onChange={handleSearch}
+              />
             </div>
           </div>
-          <div className="search-results">
-            <ol className="books-box"></ol>
-          </div>
+          {/* import search shelf */}
+          <SearchShelves searchResult={searchResult} />
         </div>
       </div>
     );
