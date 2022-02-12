@@ -25,7 +25,10 @@ export default class SearchPage extends Component {
             </div>
           </div>
           {/* import search shelf */}
-          <SearchShelves searchResult={searchResult} />
+          <SearchShelves
+            searchResult={searchResult}
+            changeShelf={this.props.changeShelf}
+          />
         </div>
       </div>
     );

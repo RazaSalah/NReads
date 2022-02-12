@@ -9,6 +9,22 @@ export default class App extends Component {
   state = {
     search: "",
     searchResult: [],
+    books: [],
+  };
+
+  componentDidMount() {
+    BooksAPI.getAllBooks().then((res) => this.setState({ books: res }));
+  }
+
+  changeShelf = async (id, shelf) => {
+    await BooksAPI.updateBook(id, shelf);
+    await BooksAPI.getAllBooks().then((res) => {
+      this.setState({
+        books: res,
+      });
+      // console.log(this.state.books);
+    });
+    // this.handleBooksSearch(this.state.search);
   };
 
   handleSearch = async (event) => {
@@ -37,10 +53,19 @@ export default class App extends Component {
                   handleSearch={this.handleSearch}
                   search={this.state.search}
                   searchResult={this.state.searchResult}
+                  changeShelf={this.changeShelf}
                 />
               }
             ></Route>
-            <Route path="/" element={<Home />}></Route>
+            <Route
+              path="/"
+              element={
+                <Home
+                  allBooks={this.state.books}
+                  changeShelf={this.changeShelf}
+                />
+              }
+            ></Route>
           </Routes>
         </div>
       </BrowserRouter>

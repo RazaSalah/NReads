@@ -1,27 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Shelves from "../components/Shelves";
-import * as BooksAPI from "../Api";
 
 export default class Home extends Component {
-  state = {
-    books: [],
-  };
-
-  componentDidMount() {
-    BooksAPI.getAllBooks().then((res) => this.setState({ books: res }));
-  }
-
-  changeShelf = async (book, shelf) => {
-    await BooksAPI.updateBook(book, shelf);
-    await BooksAPI.getAllBooks().then((res) => {
-      this.setState({
-        books: res,
-      });
-    });
-    //this.handleBooksSearch(this.state.search);
-  };
-
   render() {
     // console.log(this.state.books);
     return (
@@ -35,8 +16,8 @@ export default class Home extends Component {
           <div>
             {/* pass the books array and the change shelf to the shelves */}
             <Shelves
-              allBooks={this.state.books}
-              changeShelf={this.changeShelf}
+              allBooks={this.props.allBooks}
+              changeShelf={this.props.changeShelf}
             />
           </div>
         </div>
