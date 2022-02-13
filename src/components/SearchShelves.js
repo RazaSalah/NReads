@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import Shelf from "./Shelf";
+
 export default class SearchShelves extends Component {
   render() {
     const searchResult = this.props.searchResult;
+
     console.log(searchResult);
     return (
       <div className="search-results">

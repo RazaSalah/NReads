@@ -7,7 +7,8 @@ export default class SearchPage extends Component {
     const handleSearch = this.props.handleSearch;
     const search = this.props.search;
     const searchResult = this.props.searchResult;
-    console.log(searchResult);
+    const loadSearch = this.props.loadSearch;
+    //console.log(searchResult);
 
     return (
       <div className="main">
@@ -21,14 +22,19 @@ export default class SearchPage extends Component {
                 type="text"
                 placeholder="Search..."
                 onChange={handleSearch}
+                value={search}
               />
             </div>
           </div>
           {/* import search shelf */}
-          <SearchShelves
-            searchResult={searchResult}
-            changeShelf={this.props.changeShelf}
-          />
+          {loadSearch ? (
+            <SearchShelves
+              searchResult={searchResult}
+              changeShelf={this.props.changeShelf}
+            />
+          ) : (
+            searchResult
+          )}
         </div>
       </div>
     );

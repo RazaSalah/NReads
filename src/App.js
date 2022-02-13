@@ -10,6 +10,7 @@ export default class App extends Component {
     search: "",
     searchResult: [],
     books: [],
+    loadSearch: false,
   };
 
   componentDidMount() {
@@ -26,21 +27,33 @@ export default class App extends Component {
     });
     // this.handleBooksSearch(this.state.search);
   };
-
+  // this function will be called in search input
   handleSearch = async (event) => {
     await this.setState({ search: event.target.value });
     console.log(this.state.search);
     this.handleBookSearch(this.state.search);
   };
 
-  handleBookSearch = (search) => {
-    BooksAPI.searchBook(search).then((res) => {
-      this.setState({
-        searchResult: res,
-      });
+  handleBookSearch = async (search) => {
+    await BooksAPI.searchBook(search).then((res) => {
+      if (res && !res.error) {
+        this.setState({
+          searchResult: res,
+          loadSearch: true,
+        });
+      } else {
+        this.setState({
+          searchResult: (
+            <div className="search-results">"No matching Books..."</div>
+          ),
+          loadSearch: false,
+        });
+      }
+
       console.log(this.state.searchResult);
     });
   };
+
   render() {
     return (
       <BrowserRouter>
@@ -54,6 +67,7 @@ export default class App extends Component {
                   search={this.state.search}
                   searchResult={this.state.searchResult}
                   changeShelf={this.changeShelf}
+                  loadSearch={this.state.loadSearch}
                 />
               }
             ></Route>
