@@ -25,12 +25,12 @@ export default class App extends Component {
       });
       // console.log(this.state.books);
     });
-    // this.handleBooksSearch(this.state.search);
+    this.handleBookSearch(this.state.search);
   };
   // this function will be called in search input
   handleSearch = async (event) => {
     await this.setState({ search: event.target.value });
-    console.log(this.state.search);
+    // console.log(this.state.search);
     this.handleBookSearch(this.state.search);
   };
 
@@ -38,7 +38,14 @@ export default class App extends Component {
     await BooksAPI.searchBook(search).then((res) => {
       if (res && !res.error) {
         this.setState({
-          searchResult: res,
+          searchResult: res.map((booksSearch) => {
+            this.state.books.forEach((book) => {
+              if (booksSearch.id === book.id) {
+                booksSearch.shelf = book.shelf;
+              }
+            });
+            return booksSearch;
+          }),
           loadSearch: true,
         });
       } else {
@@ -49,7 +56,6 @@ export default class App extends Component {
           loadSearch: false,
         });
       }
-
       console.log(this.state.searchResult);
     });
   };
